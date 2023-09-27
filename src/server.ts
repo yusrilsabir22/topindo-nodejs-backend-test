@@ -3,6 +3,9 @@ import express from "express"
 import bodyParser from 'body-parser'
 import AppDataSource from './config/db';
 import router from './router';
+import swaggerUI from 'swagger-ui-express'
+import { User } from './entity/User';
+import { createInitialUser } from './utils';
 
 
 export default class Server {
@@ -17,9 +20,23 @@ export default class Server {
     }
 
     private init() {
-        AppDataSource.initialize().then(async () => {
+        AppDataSource.initialize().then(async (dto) => {
+            // Setup initial User
+            const userRepo = dto.getRepository(User);
+            const initialUser = createInitialUser()
+            const currentUser = await userRepo.findOneBy({
+                username: initialUser.username
+            })
+
+            if(!currentUser) {
+                await userRepo.save(initialUser)
+            }
+
             this.configureMiddleware()
             this._app.use("/api", router);
+
+            const swaggerFile = require('../docs/swagger_output.json')
+            this._app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerFile))
         })
     }
 

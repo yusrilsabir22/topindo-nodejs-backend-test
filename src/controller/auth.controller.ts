@@ -4,11 +4,29 @@ import { generateAccessToken, generateRefreshToken } from "../config/jwt";
 import { User } from "../entity/User";
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
+    // #swagger.tags = ['Login authentication']
+    // #swagger.description = "Retrieve access token"
+
+    /**
+     * #swagger.parameters['body'] = {
+            in: 'body',
+            description: '',
+            schema: {
+                $username: 'admin',
+                $password: 'admin',
+            }
+        }
+     */
+
     const {username, password} = req.body
     const userRepo = db.getRepository(User);
     
     if(!username || !password) {
-        res.status(401).json({
+        /* #swagger.responses[400] = {
+            schema: { $error: 'fields required' },
+            description: ''
+        } */
+        res.status(400).json({
             error: 'fields required'
         })
         return;
@@ -16,6 +34,10 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
     const currentUser = await userRepo.findOneBy({ username })
     if(!currentUser) {
+        /* #swagger.responses[401] = {
+            schema: { $error: "username or password doesn't match" },
+            description: ''
+        } */
         res.status(401).json({
             error: "username or password doesn't match"
         })
@@ -33,6 +55,11 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
     // should be save to table tokens
     const refreshToken = generateRefreshToken(currentUser);
+    
+    /* #swagger.responses[200] = {
+        schema: { $token: 'token-abcd' },
+        description: ''
+    } */
 
     res.json({
         token

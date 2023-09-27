@@ -4,3 +4,5 @@ docker-compose \
     --project-name topindo-backend-test \
     --file docker/docker-compose.yml \
     up --detach --remove-orphans
+
+./up-migration
