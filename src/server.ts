@@ -2,6 +2,7 @@ import * as http from 'http'
 import express from "express"
 import bodyParser from 'body-parser'
 import AppDataSource from './config/db';
+import router from './router';
 
 
 export default class Server {
@@ -18,6 +19,7 @@ export default class Server {
     private init() {
         AppDataSource.initialize().then(async () => {
             this.configureMiddleware()
+            this._app.use("/api", router);
         })
     }
 
