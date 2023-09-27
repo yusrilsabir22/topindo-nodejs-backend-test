@@ -1,0 +1,15 @@
+---
+version: '3'
+services:
+  postgresql:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_USER: "topindo"
+      POSTGRES_DB: "topindo"
+      POSTGRES_PASSWORD: "topindo"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.data/postgresql:/var/lib/postgresql/data/pgdata
+      - ./:/docker-entrypoint-initdb.d/
