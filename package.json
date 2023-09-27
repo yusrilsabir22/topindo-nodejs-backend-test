@@ -6,15 +6,19 @@
    "devDependencies": {
       "ts-node": "10.7.0",
       "@types/node": "^16.11.10",
-      "typescript": "4.5.2"
+      "typescript": "4.5.2",
+      "gen-env-types": "^1.3.4",
+      "@types/dotenv": "^8.2.0"
    },
    "dependencies": {
       "typeorm": "0.3.17",
+      "dotenv": "^16.1.4",
       "reflect-metadata": "^0.1.13",
       "pg": "^8.4.0"
    },
    "scripts": {
       "start": "ts-node src/index.ts",
-      "typeorm": "typeorm-ts-node-commonjs"
+      "typeorm": "typeorm-ts-node-commonjs",
+      "gen-env": "gen-env-types .env -o src/env.d.ts -e ."
    }
 }
