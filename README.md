@@ -24,7 +24,7 @@ Available commands:
 `gen-migration` required `args` as migration name
 example:
 ```
-./manage gen-migration migration-name
+./gen-migration migration-name
 ```
 
 Note:
