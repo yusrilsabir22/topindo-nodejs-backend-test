@@ -31,7 +31,19 @@ const saveUser = async (req: Request, res: Response, next: NextFunction) => {
     })
 }
 
+const getUserById = async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id
+    const userRepo = db.getRepository(User);
+    const user = await userRepo.findOne({
+        where: {
+            id: parseInt(id)
+        }
+    })
+    res.json({ user })
+}
+
 export {
     getListUser,
+    getUserById,
     saveUser
 }
