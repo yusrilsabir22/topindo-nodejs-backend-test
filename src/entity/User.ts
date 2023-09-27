@@ -3,16 +3,25 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 @Entity()
 export class User {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment')
     id: number
 
-    @Column()
-    firstName: string
+    @Column({ unique: true })
+    username: string
 
     @Column()
-    lastName: string
+    password: string
+
+    @Column()
+    name: string
 
     @Column()
     age: number
+
+    @Column()
+    address: string
+
+    @Column()
+    phoneNumber: string
 
 }
